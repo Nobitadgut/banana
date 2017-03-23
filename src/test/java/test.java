@@ -13,4 +13,7 @@ public class test {
 		FileUtils.recordPort(newPort);
 	}
 
+	public static void test2() {
+			System.out.println(CommonUtils.getInstance().isPortAvailable(8080));
+	}
 }
