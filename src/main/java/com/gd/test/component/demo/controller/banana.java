@@ -1,5 +1,7 @@
 package com.gd.test.component.demo.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -25,10 +27,13 @@ public class banana {
 		return bananaService.getJson();
 	}
 
+	@RequestMapping("/getAllUser")
+	public @ResponseBody List<User> getAllUser() throws Exception {
+		return bananaService.getAllUser();
+	}
+
 	@RequestMapping("/addUser")
 	public @ResponseBody User addUser() throws Exception {
-		User addUser = bananaService.addUser();
-		System.out.println(addUser.toString());
-		return addUser;
+		return bananaService.addUser();
 	}
 }
