@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -56,6 +57,18 @@ public class CommonUtils {
 			return true;
 		} catch (Exception e) {
 			return false;
+		}
+	}
+
+	/**
+	 * 重启shadowsock服务
+	 */
+	public void restartShadowsock() {
+		try {
+			Runtime.getRuntime().exec("service shadowsocks restart");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

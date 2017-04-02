@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gd.test.component.demo.dao.IUserMapper">
+	<!-- 根据用户ID查询终端详情 -->
+	<select id="getAllUsers" resultMap="UserMap">
+		SELECT *
+		FROM user_table
+	</select>
+	<!-- 根据用户ID查询终端详情 -->
+	<select id="addUser">
+		insert into user_table (user_port,user_password)
+		values (#{0},#{1})
+	</select>
+
+	<resultMap type="com.gd.test.component.demo.bean.User" id="UserMap">
+		<id column="id" property="id" />
+		<result column="user_password" property="user_password" />
+		<result column="user_port" property="user_port" />
+	</resultMap>
+</mapper>
+
