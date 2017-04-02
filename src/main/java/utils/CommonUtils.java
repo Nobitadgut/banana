@@ -1,26 +1,8 @@
 package utils;
 
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.Random;
 
 public class CommonUtils {
-
-	private CommonUtils commonUtils;
-
-	private CommonUtils() {
-
-	}
-
-	public static CommonUtils getInstance() {
-		return SingleInstance.instance;
-	}
-
-	static class SingleInstance {
-		static final CommonUtils instance = new CommonUtils();
-	}
-
 	/**
 	 * 生成随机密码生成方式一 密码字典 -> 随机获取字符
 	 * 
@@ -44,28 +26,4 @@ public class CommonUtils {
 		}
 		return stringBuffer.toString();
 	}
-
-	/**
-	 * 判断端口是否可用
-	 */
-	public boolean isPortAvailable(int port) {
-		Socket s = new Socket();
-		try {
-			bindPort("0.0.0.0", port);
-			bindPort(InetAddress.getLocalHost().getHostAddress(), port);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	/**
-	 * 绑定端口
-	 */
-	private void bindPort(String host, int port) throws Exception {
-		Socket s = new Socket();
-		s.bind(new InetSocketAddress(host, port));
-		s.close();
-	}
-
 }

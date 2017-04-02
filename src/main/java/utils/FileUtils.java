@@ -2,11 +2,13 @@ package utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 
+import org.apache.log4j.chainsaw.Main;
 import org.json.JSONObject;
 
 import com.gd.test.component.demo.constant.URLConstant;
@@ -53,7 +55,6 @@ public class FileUtils {
 			while ((s = br.readLine()) != null) {
 				sb.append(s.trim());
 			}
-			System.out.println(sb.toString());
 			dataJson = new JSONObject(sb.toString());// StringBuffer不能转为jsonObject
 			return dataJson;
 		} catch (IOException e) {
@@ -69,39 +70,18 @@ public class FileUtils {
 	}
 
 	/**
-	 * 检查文件是否存在，不存在则创建
-	 */
-	public static boolean checkOrCreateFile(String path) throws IOException {
-		File f = new File(path);
-		if (!f.exists()) {
-			return f.createNewFile();
-		} else {
-			return true;
-		}
-	}
-
-	/**
 	 * 获取下一个端口
 	 */
 	public static String getTheNextPort() {
 		BufferedReader br = null;
 		try {
-
-			if (!checkOrCreateFile(URLConstant.WindowPortPath)) {
-				throw new RuntimeException("the FilePath of port isn't exist");
-			}
-
 			br = new BufferedReader(new FileReader(URLConstant.WindowPortPath));
 			if (null != br) {
 
-				String port = br.readLine();
-				
-				if (null == port) {
-					port = "443";
-				}
+				String port = br.readLine().trim();
+				if (null == port)
+					return null;
 
-				port=port.trim();
-				
 				int portNum = Integer.parseInt(port);
 				portNum++;
 
@@ -114,7 +94,7 @@ public class FileUtils {
 				return portNum + "";
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			// TODO: handle exception
 		} finally {
 			try {
 				br.close();
@@ -133,8 +113,7 @@ public class FileUtils {
 	public static boolean checkPort(@NotNull String port) {
 		JSONObject dataJson = getFileJson();
 		JSONObject portJson = dataJson.getJSONObject("port_password");
-		boolean portAvailable = CommonUtils.getInstance().isPortAvailable(Integer.parseInt(port));
-		return portJson.isNull(port) && portAvailable;
+		return portJson.isNull(port);
 	}
 
 	/**
