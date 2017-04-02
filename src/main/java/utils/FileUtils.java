@@ -22,7 +22,7 @@ public class FileUtils {
 		JSONObject dataJson = getFileJson();
 		BufferedWriter bw = null;
 		try {
-			bw = new BufferedWriter(new FileWriter(URLConstant.WindowFilePath));// 读取原始json文件
+			bw = new BufferedWriter(new FileWriter(URLConstant.getFilePath()));// 读取原始json文件
 			JSONObject portData = dataJson.getJSONObject("port_password");
 			portData.put(port, pwd);
 			bw.write(dataJson.toString());
@@ -47,7 +47,7 @@ public class FileUtils {
 		JSONObject dataJson = null;
 		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader(URLConstant.WindowFilePath));// 读取原始json文件
+			br = new BufferedReader(new FileReader(URLConstant.getFilePath()));// 读取原始json文件
 			StringBuffer sb = new StringBuffer();
 			String s = null;
 			while ((s = br.readLine()) != null) {
@@ -73,6 +73,12 @@ public class FileUtils {
 	 */
 	public static boolean checkOrCreateFile(String path) throws IOException {
 		File f = new File(path);
+
+		File fp = f.getParentFile();
+		if (!fp.exists()) {
+			fp.mkdirs();
+		}
+
 		if (!f.exists()) {
 			return f.createNewFile();
 		} else {
@@ -87,21 +93,21 @@ public class FileUtils {
 		BufferedReader br = null;
 		try {
 
-			if (!checkOrCreateFile(URLConstant.WindowPortPath)) {
+			if (!checkOrCreateFile(URLConstant.getPortPath())) {
 				throw new RuntimeException("the FilePath of port isn't exist");
 			}
 
-			br = new BufferedReader(new FileReader(URLConstant.WindowPortPath));
+			br = new BufferedReader(new FileReader(URLConstant.getPortPath()));
 			if (null != br) {
 
 				String port = br.readLine();
-				
+
 				if (null == port) {
 					port = "443";
 				}
 
-				port=port.trim();
-				
+				port = port.trim();
+
 				int portNum = Integer.parseInt(port);
 				portNum++;
 
@@ -143,7 +149,7 @@ public class FileUtils {
 	public static void recordPort(@NotNull String port) {
 		BufferedWriter bw = null;
 		try {
-			bw = new BufferedWriter(new FileWriter(URLConstant.WindowPortPath));
+			bw = new BufferedWriter(new FileWriter(URLConstant.getPortPath()));
 			bw.write(port);
 			bw.flush();
 		} catch (Exception e) {

@@ -1,9 +1,15 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import utils.CommonUtils;
 import utils.FileUtils;
 
 public class test {
 	public static void main(String[] args) {
-		test1();
+		
+		
+		
+		test3();
 	}
 
 	public static void test1() {
@@ -14,6 +20,21 @@ public class test {
 	}
 
 	public static void test2() {
-			System.out.println(CommonUtils.getInstance().isPortAvailable(8080));
+		System.out.println(CommonUtils.getInstance().isPortAvailable(8080));
 	}
+
+	public static void test3() {
+
+		try {
+			String commands = "calc";
+
+			Runtime.getRuntime().exec(commands);
+
+		} catch (java.io.IOException e) {
+
+			System.err.println("IOException " + e.getMessage());
+			
+		}
+	}
+
 }
